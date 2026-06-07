@@ -1,0 +1,64 @@
+
+services:
+  sandbox-api:
+    build: ./sandbox
+    ports: ["4000:4000"]
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - NODE_ENV=development
+
+  redpanda:
+    image: redpandadata/redpanda:latest
+    ports: ["9092:9092", "9644:9644"]
+    command:
+      - redpanda start
+      - --overprovisioned
+      - --smp 1
+      - --memory 512M
+      - --kafka-addr PLAINTEXT://0.0.0.0:9092
+
+  bot-coordinator:
+    build: ./bot-fleet/coordinator
+    environment:
+      KAFKA_BROKER: redpanda:9092
+    depends_on: [redpanda]
+
+  timescaledb:
+    image: timescale/timescaledb:latest-pg15
+    ports: ["5432:5432"]
+    environment:
+      POSTGRES_DB: telemetry
+      POSTGRES_USER: iicpc
+      POSTGRES_PASSWORD: iicpc_secret
+
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+
+  telemetry-ingester:
+    build: ./telemetry
+    ports: ["50051:50051"]
+    environment:
+      DB_URL: postgresql://iicpc:iicpc_secret@timescaledb:5432/telemetry
+      REDIS_URL: redis://redis:6379
+    depends_on: [timescaledb, redis]
+
+  leaderboard-relay:
+    build: ./leaderboard/relay
+    ports: ["3001:3001"]
+    environment:
+      REDIS_URL: redis://redis:6379
+    depends_on: [redis]
+
+  leaderboard-frontend:
+    build: ./leaderboard/frontend
+    ports: ["3000:3000"]
+    depends_on: [leaderboard-relay]
+
+networks:
+  default:
+    name: iicpc-net
+  contestant-net:
+    name: contestant-net
+    internal: true

@@ -1,0 +1,15 @@
+{
+  "name": "iicpc-platform",
+  "version": "1.0.0",
+  "description": "## Architecture - **sandbox/**: Submission API + Docker container isolation - **bot-fleet/**: Distributed load generator (Go bots + Kafka) - **telemetry/**: gRPC ingester + TimescaleDB + scoring engine - **leaderboard/**: React frontend + Socket.io relay - **infra/**: Terraform, Kubernetes manifests, CI pipeline - **docs/**: Architecture blueprint, API reference, scoring formula",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "iicpc-leaderboard-relay",
+  "version": "1.0.0",
+  "scripts": { "start": "node index.js" },
+  "dependencies": {
+    "redis": "^4.6.13",
+    "socket.io": "^4.7.5"
+  }
+}

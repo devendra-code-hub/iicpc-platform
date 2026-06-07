@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: bot-fleet-{{ submissionId }}
+spec:
+  completions: 50        # 50 bot pods
+  parallelism: 50        # all at once
+  template:
+    spec:
+      containers:
+      - name: bot-agent
+        image: iicpc/bot-agent:latest
+        env:
+        - name: TARGET_URL
+          value: "{{ targetURL }}"
+        - name: BOT_COUNT
+          value: "20"     
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "128Mi"
+      restartPolicy: Never

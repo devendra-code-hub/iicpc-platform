@@ -1,0 +1,12 @@
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "[go]": { "editor.tabSize": 4 },
+  "go.toolsManagement.autoUpdate": true,
+  "terraform.experimentalFeatures.validateOnSave": true,
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.terraform": true,
+    "**/target": true
+  }
+}

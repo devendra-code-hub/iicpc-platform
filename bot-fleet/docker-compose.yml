@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  redpanda:
+    image: redpandadata/redpanda:latest
+    ports: ["9092:9092", "9644:9644"]
+    command:
+      - redpanda start
+      - --overprovisioned
+      - --smp 1
+      - --memory 512M
+      - --kafka-addr PLAINTEXT://0.0.0.0:9092
+
+  bot-coordinator:
+    build: ./coordinator
+    environment:
+      KAFKA_BROKER: redpanda:9092
+    depends_on: [redpanda]

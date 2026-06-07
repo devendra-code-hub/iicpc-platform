@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "ms-vscode-remote.remote-containers",
+    "golang.go",
+    "rust-lang.rust-analyzer",
+    "ms-azuretools.vscode-docker",
+    "hashicorp.terraform",
+    "zxh404.vscode-proto3",
+    "humao.rest-client",
+    "esbenp.prettier-vscode"
+  ]
+}

@@ -1,0 +1,26 @@
+syntax = "proto3";
+package metrics;
+
+service MetricsIngester {
+  rpc RecordEvent (OrderEvent) returns (Ack);
+  rpc StreamStats (StatsRequest) returns (stream LatencyStats);
+}
+
+message OrderEvent {
+  string submission_id = 1;
+  int32  bot_id        = 2;
+  string order_id      = 3;
+  double latency_ms    = 4;
+  int32  status_code   = 5;
+  bool   accepted      = 6;
+  int64  timestamp     = 7;
+}
+
+message LatencyStats {
+  string submission_id = 1;
+  double p50           = 2;
+  double p90           = 3;
+  double p99           = 4;
+  int64  tps           = 5;
+  double score         = 6;
+}
