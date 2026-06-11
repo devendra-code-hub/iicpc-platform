@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: contestant-isolation
+  namespace: contestants
+spec:
+  podSelector:
+    matchLabels:
+      role: contestant
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          role: bot-agent
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress: []   # no outbound traffic from contestant pods

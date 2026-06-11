@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: contestant-SUBMISSION_ID
+  namespace: contestants
+  labels:
+    role: contestant
+    submission-id: SUBMISSION_ID
+spec:
+  containers:
+  - name: exchange
+    image: contestant-SUBMISSION_ID:latest
+    ports:
+    - containerPort: 8080
+    resources:
+      limits:
+        cpu: "2"
+        memory: "512Mi"
+      requests:
+        cpu: "1"
+        memory: "256Mi"
+    securityContext:
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop: ["ALL"]
+  restartPolicy: Never

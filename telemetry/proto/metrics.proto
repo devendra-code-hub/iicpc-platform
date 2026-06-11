@@ -2,8 +2,9 @@ syntax = "proto3";
 package metrics;
 
 service MetricsIngester {
-  rpc RecordEvent (OrderEvent) returns (Ack);
-  rpc StreamStats (StatsRequest) returns (stream LatencyStats);
+  rpc RecordEvent  (OrderEvent)    returns (Ack);
+  rpc GetStats     (StatsRequest)  returns (LatencyStats);
+  rpc StreamStats  (StatsRequest)  returns (stream LatencyStats);
 }
 
 message OrderEvent {
@@ -13,14 +14,29 @@ message OrderEvent {
   double latency_ms    = 4;
   int32  status_code   = 5;
   bool   accepted      = 6;
-  int64  timestamp     = 7;
+  int64  timestamp_ms  = 7;
+  string order_type    = 8;
+  string side          = 9;
+  double price         = 10;
+  int32  quantity      = 11;
+}
+
+message Ack {
+  bool   success = 1;
+  string message = 2;
+}
+
+message StatsRequest {
+  string submission_id = 1;
 }
 
 message LatencyStats {
-  string submission_id = 1;
-  double p50           = 2;
-  double p90           = 3;
-  double p99           = 4;
-  int64  tps           = 5;
-  double score         = 6;
+  string submission_id    = 1;
+  double p50_ms           = 2;
+  double p90_ms           = 3;
+  double p99_ms           = 4;
+  double tps              = 5;
+  double correctness_pct  = 6;
+  double score            = 7;
+  int64  total_orders     = 8;
 }
