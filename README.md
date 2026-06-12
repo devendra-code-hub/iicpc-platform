@@ -1,13 +1,16 @@
 # IICPC Summer Hackathon 2026 — Distributed Benchmarking Platform
 
 ## Team
-- Devendra Mahto — IIIT Bhopal
+- Devendra Kumar Mahto
 
 ## Live Demo
 - Sandbox API: http://localhost:4000
 - Leaderboard: http://localhost:3000
 
-## Architecture Upload → Sandbox (Docker) → Bot Fleet (Go+Kafka) → Telemetry (gRPC+TimescaleDB) → Leaderboard (Socket.io) ## Components Built
+## Architecture 
+-Upload → Sandbox (Docker) → Bot Fleet (Go+Kafka) → Telemetry (gRPC+TimescaleDB) → Leaderboard (Socket.io)
+
+## Components Built
 - **Submission & Sandboxing Engine** — Node.js + Dockerode, strict resource limits (CPU pinning, 512MB memory cap, no-new-privileges, dropped capabilities)
 - **Distributed Bot Fleet** — Go goroutines (1000+ concurrent bots), Redpanda/Kafka task distribution, K8s Job scaling
 - **Telemetry & Validation Ingester** — gRPC server, TimescaleDB hypertable, p50/p90/p99 latency, TPS, correctness scoring
